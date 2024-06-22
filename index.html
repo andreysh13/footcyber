@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram WebApp Game</title>
+    <title>Игра для Telegram WebApp</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
@@ -23,31 +23,31 @@
 </head>
 <body>
     <div id="startScreen">
-        <h1>FootCyber</h1>
+        <h1>Добро пожаловать в игру</h1>
         <button id="newGameButton">Новая игра</button>
     </div>
 
     <div id="clubSelectionScreen" class="hidden">
-        <h2>Выберите клуб</h2>
+        <h2>Выберите свой футбольный клуб</h2>
         <div id="clubButtons">
-            <!-- Buttons for football clubs will be inserted here -->
+            <!-- Кнопки для футбольных клубов будут вставлены здесь -->
         </div>
     </div>
 
     <div id="resultScreen" class="hidden">
-        <h2>Ваш футбольный клуб:</h2>
+        <h2>Вы выбрали:</h2>
         <p id="selectedClub"></p>
     </div>
 
     <script>
-        const clubs = ["Manchester United", "Real Madrid", "Barcelona", "Liverpool", "Juventus"];
-
+        const clubs = ["Манчестер Юнайтед", "Реал Мадрид", "Барселона", "Ливерпуль", "Ювентус"];
+        
         document.getElementById('newGameButton').addEventListener('click', () => {
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('clubSelectionScreen').classList.remove('hidden');
 
             const clubButtonsDiv = document.getElementById('clubButtons');
-            clubButtonsDiv.innerHTML = ''; // Clear previous buttons
+            clubButtonsDiv.innerHTML = ''; // Очистить предыдущие кнопки
             clubs.forEach(club => {
                 const button = document.createElement('button');
                 button.textContent = club;
@@ -62,7 +62,7 @@
             document.getElementById('selectedClub').textContent = club;
         }
 
-        // Initialize Telegram Web Apps API
+        // Инициализация Telegram Web Apps API
         const tg = window.Telegram.WebApp;
         tg.expand();
     </script>

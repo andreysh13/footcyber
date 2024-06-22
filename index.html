@@ -29,7 +29,7 @@
 </head>
 <body>
     <div id="startScreen">
-        <h1>Footcyber</h1>
+        <h1>Добро пожаловать в игру</h1>
         <button id="newGameButton">Новая игра</button>
     </div>
 
@@ -52,9 +52,16 @@
         </div>
     </div>
 
+    <div id="playerSelectionScreen" class="hidden">
+        <h2>Выберите игрока</h2>
+        <div id="playerButtons">
+            <!-- Кнопки для игроков будут вставлены здесь -->
+        </div>
+    </div>
+
     <div id="resultScreen" class="hidden">
         <h2>Вы выбрали:</h2>
-        <p id="selectedClub"></p>
+        <p id="selectedPlayer"></p>
     </div>
 
     <script>
@@ -64,6 +71,24 @@
             "Англия": ["Манчестер Юнайтед", "Ливерпуль", "Челси"],
             "Германия": ["Бавария", "Боруссия Дортмунд", "Бавария Мюнхен"],
             "Франция": ["Пари Сен-Жермен", "Марсель", "Лион"]
+        };
+
+        const playersByClub = {
+            "Реал Мадрид": ["Marc-André ter Stegen", "Iñaki Peña", "Ander Astralaga", "Ronald Araujo", "Jules Koundé", "Andreas Christensen", "Pau Cubarsí", "Iñigo Martínez", "Alejandro Balde", "Marcos Alonso", "João Cancelo", "Héctor Fort", "	Oriol Romeu", "Gavi", "Pedri", "Frenkie de Jong", "Fermín López", "İlkay Gündoğan", "Sergi Roberto", "Ferran Torres", "Lamine Yamal", "Raphinha", "João Félix", "Vitor Roque", "Robert Lewandowski", "Marc Guiu"],
+            "Барселона": ["Лионель Месси", "Жерар Пике", "Андрес Иньеста"],
+            "Атлетико Мадрид": ["Антуан Гризманн", "Ханс Хименес", "Коке"],
+            "Ювентус": ["Криштиану Роналду", "Пауло Дибала", "Джорджио Кьеллини"],
+            "Милан": ["Златан Ибрагимович", "Джанлуиджи Доннарумма", "Стефано Пиоли"],
+            "Интер": ["Ромелу Лукаку", "Ашраф Хакими", "Марсело Брозович"],
+            "Манчестер Юнайтед": ["Бруно Фернандеш", "Маркус Рэшфорд", "Поль Погба"],
+            "Ливерпуль": ["Мохамед Салах", "Вирджил ван Дейк", "Садио Мане"],
+            "Челси": ["Нголо Канте", "Мэйсон Маунт", "Тимо Вернер"],
+            "Бавария": ["Роберт Левандовски", "Томас Мюллер", "Мануэль Нойер"],
+            "Боруссия Дортмунд": ["Эрлинг Холанд", "Марко Ройс", "Мац Хуммельс"],
+            "Бавария Мюнхен": ["Лерой Сане", "Давид Алаба", "Джошуа Киммих"],
+            "Пари Сен-Жермен": ["Килиан Мбаппе", "Неймар", "Маркиньос"],
+            "Марсель": ["Димитри Пайет", "Хорхе Сампаоли", "Стев Манданда"],
+            "Лион": ["Мемфис Депай", "Лука Тузар", "Антони Лопеш"]
         };
 
         document.getElementById('newGameButton').addEventListener('click', () => {
@@ -88,8 +113,22 @@
 
         function selectClub(club) {
             document.getElementById('clubSelectionScreen').classList.add('hidden');
+            document.getElementById('playerSelectionScreen').classList.remove('hidden');
+
+            const playerButtonsDiv = document.getElementById('playerButtons');
+            playerButtonsDiv.innerHTML = ''; // Очистить предыдущие кнопки
+            playersByClub[club].forEach(player => {
+                const button = document.createElement('button');
+                button.textContent = player;
+                button.addEventListener('click', () => selectPlayer(player));
+                playerButtonsDiv.appendChild(button);
+            });
+        }
+
+        function selectPlayer(player) {
+            document.getElementById('playerSelectionScreen').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');
-            document.getElementById('selectedClub').textContent = club;
+            document.getElementById('selectedPlayer').textContent = player;
         }
 
         // Инициализация Telegram Web Apps API

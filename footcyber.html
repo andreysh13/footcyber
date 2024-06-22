@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram WebApp Game</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="startScreen">
+        <h1>Welcome to the Game</h1>
+        <button id="newGameButton">New Game</button>
+    </div>
+
+    <div id="clubSelectionScreen" class="hidden">
+        <h2>Select Your Football Club</h2>
+        <div id="clubButtons">
+            <!-- Buttons for football clubs will be inserted here -->
+        </div>
+    </div>
+
+    <div id="resultScreen" class="hidden">
+        <h2>You selected:</h2>
+        <p id="selectedClub"></p>
+    </div>
+
+    <script>
+        const clubs = ["Manchester United", "Real Madrid", "Barcelona", "Liverpool", "Juventus"];
+
+        document.getElementById('newGameButton').addEventListener('click', () => {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('clubSelectionScreen').classList.remove('hidden');
+
+            const clubButtonsDiv = document.getElementById('clubButtons');
+            clubButtonsDiv.innerHTML = ''; // Clear previous buttons
+            clubs.forEach(club => {
+                const button = document.createElement('button');
+                button.textContent = club;
+                button.addEventListener('click', () => selectClub(club));
+                clubButtonsDiv.appendChild(button);
+            });
+        });
+
+        function selectClub(club) {
+            document.getElementById('clubSelectionScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            document.getElementById('selectedClub').textContent = club;
+        }
+
+        // Initialize Telegram Web Apps API
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+    </script>
+</body>
+</html>

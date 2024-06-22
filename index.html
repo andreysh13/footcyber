@@ -25,11 +25,19 @@
             padding: 10px;
             margin: 10px;
         }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            font-size: 18px;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <div id="startScreen">
-        <h1>FootCyber2024</h1>
+        <h1>Footcyber</h1>
         <button id="newGameButton">Новая игра</button>
     </div>
 
@@ -47,16 +55,12 @@
 
     <div id="clubSelectionScreen" class="hidden">
         <h2>Выберите клуб</h2>
-        <div id="clubButtons">
-            <!-- Кнопки для футбольных клубов будут вставлены здесь -->
-        </div>
+        <select id="clubSelect"></select>
     </div>
 
     <div id="playerSelectionScreen" class="hidden">
-        <h2>Выберите игрока</h2>
-        <div id="playerButtons">
-            <!-- Кнопки для игроков будут вставлены здесь -->
-        </div>
+        <h2>Список игроков выбранного клуба</h2>
+        <ul id="playerList"></ul>
     </div>
 
     <div id="resultScreen" class="hidden">
@@ -101,35 +105,31 @@
             document.getElementById('countrySelectionScreen').classList.add('hidden');
             document.getElementById('clubSelectionScreen').classList.remove('hidden');
 
-            const clubButtonsDiv = document.getElementById('clubButtons');
-            clubButtonsDiv.innerHTML = ''; // Очистить предыдущие кнопки
+            const clubSelect = document.getElementById('clubSelect');
+            clubSelect.innerHTML = ''; // Очистить предыдущие опции
+
             clubsByCountry[selectedCountry].forEach(club => {
-                const button = document.createElement('button');
-                button.textContent = club;
-                button.addEventListener('click', () => selectClub(club));
-                clubButtonsDiv.appendChild(button);
+                const option = document.createElement('option');
+                option.textContent = club;
+                option.value = club;
+                clubSelect.appendChild(option);
             });
         });
 
-        function selectClub(club) {
+        document.getElementById('clubSelect').addEventListener('change', (event) => {
+            const selectedClub = event.target.value;
             document.getElementById('clubSelectionScreen').classList.add('hidden');
             document.getElementById('playerSelectionScreen').classList.remove('hidden');
 
-            const playerButtonsDiv = document.getElementById('playerButtons');
-            playerButtonsDiv.innerHTML = ''; // Очистить предыдущие кнопки
-            playersByClub[club].forEach(player => {
-                const button = document.createElement('button');
-                button.textContent = player;
-                button.addEventListener('click', () => selectPlayer(player));
-                playerButtonsDiv.appendChild(button);
-            });
-        }
+            const playerList = document.getElementById('playerList');
+            playerList.innerHTML = ''; // Очистить предыдущий список игроков
 
-        function selectPlayer(player) {
-            document.getElementById('playerSelectionScreen').classList.add('hidden');
-            document.getElementById('resultScreen').classList.remove('hidden');
-            document.getElementById('selectedPlayer').textContent = player;
-        }
+            playersByClub[selectedClub].forEach(player => {
+                const listItem = document.createElement('li');
+                listItem.textContent = player;
+                playerList.appendChild(listItem);
+            });
+        });
 
         // Инициализация Telegram Web Apps API
         const tg = window.Telegram.WebApp;

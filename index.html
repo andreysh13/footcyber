@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
-            background-color: #4CAF50;
+            background-color: #4CAF50; /* Зеленый цвет фона */
         }
         .hidden {
             display: none;
@@ -20,6 +20,11 @@
             margin: 10px;
             font-size: 16px;
         }
+        select {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -28,8 +33,20 @@
         <button id="newGameButton">Новая игра</button>
     </div>
 
+    <div id="countrySelectionScreen" class="hidden">
+        <h2>Выберите страну</h2>
+        <select id="countrySelect">
+            <option value="Испания">Испания</option>
+            <option value="Италия">Италия</option>
+            <option value="Англия">Англия</option>
+            <option value="Германия">Германия</option>
+            <option value="Франция">Франция</option>
+        </select>
+        <button id="selectCountryButton">Выбрать</button>
+    </div>
+
     <div id="clubSelectionScreen" class="hidden">
-        <h2>Выберите свой футбольный клуб</h2>
+        <h2>Выберите клуб</h2>
         <div id="clubButtons">
             <!-- Кнопки для футбольных клубов будут вставлены здесь -->
         </div>
@@ -41,15 +58,27 @@
     </div>
 
     <script>
-        const clubs = ["Манчестер Юнайтед", "Реал Мадрид", "Барселона", "Ливерпуль", "Ювентус"];
-        
+        const clubsByCountry = {
+            "Испания": ["Реал Мадрид", "Барселона", "Атлетико Мадрид"],
+            "Италия": ["Ювентус", "Милан", "Интер"],
+            "Англия": ["Манчестер Юнайтед", "Ливерпуль", "Челси"],
+            "Германия": ["Бавария", "Боруссия Дортмунд", "Бавария Мюнхен"],
+            "Франция": ["Пари Сен-Жермен", "Марсель", "Лион"]
+        };
+
         document.getElementById('newGameButton').addEventListener('click', () => {
             document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('countrySelectionScreen').classList.remove('hidden');
+        });
+
+        document.getElementById('selectCountryButton').addEventListener('click', () => {
+            const selectedCountry = document.getElementById('countrySelect').value;
+            document.getElementById('countrySelectionScreen').classList.add('hidden');
             document.getElementById('clubSelectionScreen').classList.remove('hidden');
 
             const clubButtonsDiv = document.getElementById('clubButtons');
             clubButtonsDiv.innerHTML = ''; // Очистить предыдущие кнопки
-            clubs.forEach(club => {
+            clubsByCountry[selectedCountry].forEach(club => {
                 const button = document.createElement('button');
                 button.textContent = club;
                 button.addEventListener('click', () => selectClub(club));
